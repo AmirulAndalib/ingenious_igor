@@ -93,7 +93,7 @@ ffmpeg -hide_banner -stats_period 5 -y \
   -ss 00:28.8 -i "${ConvertedName/1080/$ResCode}.x265.mkv" -t 100 -avoid_negative_ts 1 \
   -codec copy "${ConvertedName/1080/SneakPeak.$ResCode}.x265.mkv"
 
-sleep 2s
+#sleep 2s
 
 set +xv
 
