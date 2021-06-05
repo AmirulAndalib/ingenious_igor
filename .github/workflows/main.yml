@@ -1,0 +1,45 @@
+name: Miraculous CI
+
+on:
+  workflow_dispatch:
+    inputs:
+      EpCode:
+        description: "EpNum, {01..26}"
+        required: true
+
+env:
+  EpNum: ${{ github.event.inputs.EpCode }}
+  RCLONE_CONFIG_URL: ${{ secrets.RCLONE_CONFIG_URL }}
+  PAT: ${{ secrets.GH_TOKEN }}
+  Index_Base: ${{ secrets.INDEX_BASE }}
+
+jobs:
+
+  build360p:
+    env:
+      ResCode: "360"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Transload 360p MLB S01${{ env.EpNum }}"
+        run: |
+          mkdir -p ~/job && cd ~/job
+          curl -sL "https://github.com/PH4NTOM-3NCOD3R/ingenious_igor/raw/main/scripts/season_01.sh" | bash
+
+  build540p:
+    env:
+      ResCode: "540"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Transload 540p MLB S01E${{ env.EpNum }}"
+        run: |
+          mkdir -p ~/job && cd ~/job
+          curl -sL "https://github.com/PH4NTOM-3NCOD3R/ingenious_igor/raw/main/scripts/season_01.sh" | bash
+
+  triggerNext:
+    needs: [ build360p, build540p ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Trigger next workflow"
+        run: |
+          curl -sL "https://github.com/PH4NTOM-3NCOD3R/ingenious_igor/raw/main/scripts/trigger.sh" | bash
+
