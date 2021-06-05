@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -xv
-
 printf "\nGetting Encoder Tools...\n"
 
 wget -q "${Index_Base}/ffmpeg_SlimStaticBuild/ffmpeg"
@@ -56,9 +54,7 @@ ffmpeg -hide_banner -y \
   -af "volume=1.8,pan=stereo|FL < $FL|FR < $FR" \
   -f wav aud_enhanced_f32le.wav
 
-file aud_enhanced_f3le.wav || ls -lAog .
-
-ls -lAog .
+file aud_enhanced_f32le.wav || ls -lAog .
 
 sleep 2s
 
@@ -94,8 +90,6 @@ ffmpeg -hide_banner -stats_period 5 -y \
   -codec copy "${ConvertedName/1080/SneakPeak.$ResCode}.x265.mkv"
 
 #sleep 2s
-
-set +xv
 
 #printf "\nUpload Files to TD...\n"
 
